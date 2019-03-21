@@ -1,19 +1,9 @@
 #!/bin/bash
 
-set -e
+SSH_HOST="<SSH_HOST_WITH_PORT>"
+SSH_USER="<SSH_USER>"
+SSH_RSAKEY="/path/to/id_rsa_key"
+LOCALPATH="/local/path/to/sync"
+REMOTEPATH="/remote/path/to/sync"
 
-DATE=$(date '+%Y-%m-%d %H:%M:%S')
-
-printf "[${DATE}]\n** STARTED **\n\n"
-
-SSHUSER="<SSH_USERNAME>"
-SSHPASS="<SSH_PASSWORD>"
-HOST="<SSH_HOST>"
-LOCALPATH="/path/to/local/files/"
-REMOTEPATH="/path/to/remote/files/"
-
-sshpass -p $SSHPASS rsync -azv --delete -e ssh $LOCALPATH $SSHUSER@$HOST:$REMOTEPATH
-
-printf "\n\n** FINISHED **\n\n"
-
-exit 0
+/usr/local/bin/osync.sh --initiator="${LOCALPATH}" --target="ssh://${SSH_USER}@${SSH_HOST}/${REMOTEPATH}" --rsakey="${SSH_RSAKEY}"
